@@ -1,4 +1,5 @@
-# Go Fullstack FR Quiz #
+# Go Fullstack FR Quiz - Completed #
+Exercise done
 ## Installation ##
 Clone this repo, and run `npm install` from within the project directory.
 ## Using the app ##
