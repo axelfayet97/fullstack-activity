@@ -1,7 +1,7 @@
 {
-  "name": "go-fullstack-fr-activity",
+  "name": "go-fullstack",
   "version": "1.0.0",
-  "description": "",
+  "description": "Clone this repo, and run `npm install` from within the project directory.\r ## Using the app ##\r Run `npm start` from within the project directory.",
   "main": "index.html",
   "scripts": {
     "start": "run-script-os",
@@ -12,8 +12,20 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^5.0.0",
+    "express": "^4.17.3",
     "http-server": "^0.11.1",
     "live-server": "^1.2.1",
+    "mongoose": "^6.2.7",
+    "nodemon": "^2.0.15",
     "run-script-os": "^1.0.7"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenClassrooms-Student-Center/fullstack-activity.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenClassrooms-Student-Center/fullstack-activity/issues"
+  },
+  "homepage": "https://github.com/OpenClassrooms-Student-Center/fullstack-activity#readme"
 }
