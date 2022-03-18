@@ -1,16 +1,16 @@
+// Import d'express
 const { json } = require('express');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-// const Thing = require('./modles/Thing');
+const Product = require('./models/products');
 
-mongoose.connect('mongodb+srv://axel_fayet:password1234@cluster0.ycqur.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://axel_fayet:password1234@cluster0.ycqur.mongodb.net/fullstack-activity?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-    .then(() => console.log('Connexion à MongoDB réussie'))
-    .catch(() => console.log('Connexion à MongoDB échouée'));
-
+    .then(() => console.log('Connexion à MongoDB réussie !'))
+    .catch(() => console.log('Connexion à MongoDB échouée !'));
 const app = express();
 
 app.use(express.json());
@@ -24,21 +24,43 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json());
 
-// MIDDLEWARE
+// 1 Récupération du tableau products
 app.get('/api/products', (req, res, next) => {
-    // Retourne produit sous {products : Product[]}
+    Product.find()
+        .then(products => res.status(200).json({products}))
+        .catch(error => res.status(400).json({ error }));
 });
 
+// 2 Récupération d'un product spécifique
 app.get('/api/products/:id', (req, res, next) => {
-    // Retourne le produit avec le _id fourni sous la forme {products : Product[]}
+    Product.findOne({ _id: req.params.id })
+        .then(product => res.status(200).json({ product }))
+        .catch(error => res.status(404).json({ error }));
 });
 
+// 3 Route post pour envoi d'objet
 app.post('/api/products', (req, res, next) => {
-    // Crée un nouveau product dans la bdd
-    // corps de requete sous forme : "name": string, "description": string, "price": number, "inStock": boolean
-    // Donc delete ID puis ...
+    delete req.body._id;
+    const product = new Product({
+        ...req.body
+    });
+    product.save()
+        .then(product => res.status(201).json({ product }))
+        .catch(error => res.status(400).json({ error }));
 });
 
+// 4 Modification d'un objet
+app.put('/api/products/:id', (req, res, next) => {
+    Product.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+        .then(() => res.status(200).json({ message: 'Modified!' }))
+        .catch(error => res.status(400).json({ error }))
+});
 
+// 5 Suppression d'un objet
+app.delete('/api/products/:id', (req, res, next) => {
+    Product.deleteOne({ _id: req.params.id })
+        .then(() => res.status(200).json({ message: 'Deleted!' }))
+        .catch(error => res.status(400).json({ error }));
+});
 
 module.exports = app;
